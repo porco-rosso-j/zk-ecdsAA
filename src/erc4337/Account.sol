@@ -1,25 +1,25 @@
 pragma solidity ^0.8.12;
 
-import "openzeppelin-contracts/proxy/utils/Initializable.sol";
-import "openzeppelin-contracts/proxy/utils/UUPSUpgradeable.sol";
+import "@openzeppelin/contracts/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts/proxy/utils/UUPSUpgradeable.sol";
 import "account-abstraction/core/BaseAccount.sol";
-import "./UltraPlonkVerifier.sol";
+import "./UltraVerifier.sol";
 
-import "./helpers/BytesLib.sol";
+import "../helpers/BytesLib.sol";
 
-contract zkECDSAA is
+contract ZkECDSAA is
     BaseAccount,
     UUPSUpgradeable,
     Initializable,
-    UltraPlonkVerifier
+    UltraVerifier
 {
     using BytesLib for bytes;
-    UltraPlonkVerifier public verifier;
+    UltraVerifier public verifier;
     bytes32 public owner;
 
     IEntryPoint private immutable _entryPoint;
 
-    event DarkAAInitialized(
+    event ZKECDSAInitialized(
         IEntryPoint indexed entryPoint,
         bytes32 indexed owner
     );
@@ -49,7 +49,7 @@ contract zkECDSAA is
 
     function initialize(bytes32 _owner, address _verifier) public initializer {
         owner = _owner;
-        verifier = UltraPlonkVerifier(_verifier);
+        verifier = UltraVerifier(_verifier);
     }
 
     /**
@@ -176,11 +176,11 @@ contract zkECDSAA is
         _onlySelf();
     }
 
-    function changeOwner(bytes32 _owner) internal override {
-        owner = _owner;
-    }
+    // function changeOwner(bytes32 _owner) internal override {
+    //     owner = _owner;
+    // }
 
-    function _owmer() internal view override returns (bytes32) {
-        return owner;
-    }
+    // function _owmer() internal view override returns (bytes32) {
+    //     return owner;
+    // }
 }

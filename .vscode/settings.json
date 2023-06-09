@@ -1,0 +1,11 @@
+{
+    "solidity.packageDefaultDependenciesContractsDirectory": "src",
+    "solidity.packageDefaultDependenciesDirectory": "lib",
+    "solidity.remappings": [ 
+        "ds-test/=lib/forge-std/lib/ds-test/src/",
+        "forge-std/=lib/forge-std/src/",
+        "account-abstration/=lib/account-abstration/contracts/",
+        "openzeppelin-contracts/=lib/openzeppelin-contracts/",
+        "era-system-contracts/=lib/era-system-contracts/"
+    ]
+}
