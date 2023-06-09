@@ -30,7 +30,7 @@ contract NoirHelper is Test {
         uint8[] memory signature,
         string memory n_message_hash,
         uint8[] memory message_hash
-    ) public returns (NoirHelper2) {
+    ) public returns (NoirHelper) {
         inputs = CircuitInput(
             n_hashedAddr,
             hashedAddr,

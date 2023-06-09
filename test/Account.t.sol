@@ -4,7 +4,6 @@ import "../src/erc4337/UltraVerifier.sol";
 import "../src/erc4337/Account.sol";
 import "../src/helpers/BytesLib.sol";
 import "./utils/NoirHelper.sol";
-import "./utils/secp256k1/EthSign.sol";
 import "./utils/pubkey/address.sol";
 
 import {EntryPoint} from "account-abstraction/core/EntryPoint.sol";
@@ -12,7 +11,7 @@ import {UserOperation} from "account-abstraction/interfaces/UserOperation.sol";
 import {MockSetter} from "./mocks/MockSetter.sol";
 import {getUserOperation} from "./utils/Fixtures.sol";
 
-contract zkECDSAATest is NoirHelper, EthSign, Addresses {
+contract zkECDSAATest is NoirHelper, Addresses {
     using BytesLib for bytes;
 
     UltraVerifier public verifier;
