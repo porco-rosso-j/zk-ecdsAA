@@ -1,3 +1,3 @@
 #!/bin/sh
 cd circuits/zkecdsa/src
-nargo prove set
+nargo prove init_r

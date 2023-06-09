@@ -31,6 +31,12 @@ contract Addresses {
         0x2a871d0798f97d79848a013d4936a73bf4cc922c825d33c1cf7073dff6d409c6
     ];
 
+    bytes32[] public hashedAddr = [
+        0x13ab2733d03b0c89ab8222acd18b002120fec289a54d5769536b3b758d8dc780,
+        0x1c9fcea8cdb14e79710ec43e3f5a2c0b5c736586bd4a896c52033acab345577d,
+        0x2cc5a2e55e9a482940665b3e3dc88a9e3b0cf90e6b4966f97c8b13fa686cfe5d
+    ];
+
     uint8[] public pubkey1 = [
         131,
         24,

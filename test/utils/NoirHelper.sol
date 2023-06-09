@@ -4,8 +4,6 @@ pragma solidity 0.8.12;
 import "forge-std/Test.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-//import {console2 as console} from "forge-std/console2.sol";
-
 contract NoirHelper is Test {
     using Strings for uint;
     struct CircuitInput {
@@ -52,12 +50,12 @@ contract NoirHelper is Test {
         delete inputs;
     }
 
-    function readProof(string memory fileName) public returns (bytes memory) {
-        string memory file = vm.readFile(
-            string.concat("circuits/zkecdsa/proofs/", fileName, ".proof")
-        );
-        return vm.parseBytes(file);
-    }
+    // function readProof(string memory fileName) public returns (bytes memory) {
+    //     string memory file = vm.readFile(
+    //         string.concat("circuits/zkecdsa/proofs/", fileName, ".proof")
+    //     );
+    //     return vm.parseBytes(file);
+    // }
 
     function generateProof(string memory _path) public returns (bytes memory) {
         string memory proverTOML = "circuits/zkecdsa/Prover.toml";
