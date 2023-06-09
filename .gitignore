@@ -1,0 +1,9 @@
+out/
+cache/
+artifacts/
+circuits/zkecdsa/target/
+circuits/zkecdsa/contract/
+circuits/zkecdsa/proofs/
+yarn-error.log*
+.env
+garbages/
