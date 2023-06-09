@@ -4,6 +4,11 @@
 
 # The Default Profile
 [profile.default]
+fs_permissions = [
+    { access = "read-write", path = "./"}
+]
+
+ffi = true
 solc_version = '0.8.12'
 auto_detect_solc = false
 optimizer_runs = 5_000

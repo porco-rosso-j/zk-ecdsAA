@@ -5,13 +5,48 @@ import "@openzeppelin/contracts/proxy/utils/UUPSUpgradeable.sol";
 import "account-abstraction/core/BaseAccount.sol";
 import "./UltraVerifier.sol";
 
+import "../modules/Inheritance.sol";
+import "../modules/Recovery.sol";
 import "../helpers/BytesLib.sol";
+
+/*
+
+zkECDSAA: An ERC4337 AA wallet with a couple of privacy-preserving features enabled by Noir's zkECDSA. 
+
+features
+1: private social recovery
+2: private owner
+3: private inheritance
+
+- 1
+you can register private guardians for recoverying the ownership in case u lost the access to this acc.
+to prevent the corruption of ur guardians, their addresses are hidden. 
+
+- 2
+as if u create a new EOA, u can create AA acc which is completely unrelated to ur other addresses
+but still one of ur public eth address can control this acc privately. 
+
+- 3
+you can privately transfer the ownership this AA acc to somebody else.
+The new owner can also control this acc as you used to do. 
+
+TODO
+0. make everything AA tx. with one zkECDSA circuit.
+1. AA test.
+  - generate the first 4 bytes: function selector of module methods
+  - write tests for each module (validate userOps)
+2. think through if the secret_salt is really needed
+3. add zksync imp with foundry
+
+*/
 
 contract ZkECDSAA is
     BaseAccount,
     UUPSUpgradeable,
     Initializable,
-    UltraVerifier
+    UltraVerifier,
+    RecoveryModule,
+    InheritanceModule
 {
     using BytesLib for bytes;
     UltraVerifier public verifier;
@@ -104,9 +139,6 @@ contract ZkECDSAA is
 
         publicInputs = getPublicInputs(userOp, userOpHash, publicInputs);
 
-        // if bytes4(callData) == approveRecovery or proposeInheritance
-        // inputs for proof will be another one.
-
         // signature == proof ( mb better abi encoded)
         if (!verifier.verify(userOp.signature, publicInputs))
             revert PROOF_VERIFICATION_FAILED();
@@ -125,11 +157,12 @@ contract ZkECDSAA is
         bytes4 msgSig = BytesLib.getSelector(userOp.callData);
 
         // https://abi.hashex.org/
-        publicInputs[0] = msgSig == bytes4(0x238bc149)
+        // collusion might be problematic...
+        publicInputs[0] = msgSig == bytes4(0x4bbfbc38)
             ? BytesLib.decodeRecoveryArgs(userOp.callData)
-            : msgSig == bytes4(0x11111111)
+            : msgSig == bytes4(0x12264e20)
             ? BytesLib.decodeProposeInheritanceArgs(userOp.callData)
-            : msgSig == bytes4(0x22222222)
+            : msgSig == bytes4(0x52ae0147)
             ? BytesLib.decodeExecuteInheritanceArgs(userOp.callData)
             : owner;
 

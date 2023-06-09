@@ -69,4 +69,39 @@ library BytesLib {
         }
         return selector;
     }
+
+    // chat gpt
+    function bytes32ToUint8Array(
+        bytes32 b
+    ) public pure returns (uint8[] memory) {
+        uint8[] memory array = new uint8[](32);
+        for (uint i = 0; i < 32; i++) {
+            array[i] = uint8(b[i]);
+        }
+        return array;
+    }
+
+    function bytesToUint8Array(
+        bytes memory input
+    ) public pure returns (uint8[] memory) {
+        uint8[] memory array = new uint8[](input.length);
+        for (uint i = 0; i < input.length; i++) {
+            array[i] = uint8(input[i]);
+        }
+        return array;
+    }
+
+    function sliceStartEnd(
+        bytes memory data,
+        uint start,
+        uint end
+    ) public pure returns (bytes memory) {
+        require(start <= end && end <= data.length, "Invalid range");
+
+        bytes memory result = new bytes(end - start);
+        for (uint i = start; i < end; i++) {
+            result[i - start] = data[i];
+        }
+        return result;
+    }
 }

@@ -6,4 +6,5 @@ circuits/zkecdsa/contract/
 circuits/zkecdsa/proofs/
 yarn-error.log*
 .env
-garbages/
+trush/
+memo.md
