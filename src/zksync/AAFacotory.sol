@@ -13,8 +13,7 @@ contract AAFactory {
 
     function deployAccount(
         bytes32 salt,
-        address owner1,
-        address owner2
+        bytes32 owner,
     ) external returns (address accountAddress) {
         (bool success, bytes memory returnData) = SystemContractsCaller
             .systemCallWithReturndata(
@@ -26,13 +25,13 @@ contract AAFactory {
                     (
                         salt,
                         aaBytecodeHash,
-                        abi.encode(owner1, owner2),
+                        abi.encode(owner),
                         IContractDeployer.AccountAbstractionVersion.Version1
                     )
                 )
             );
         require(success, "Deployment failed");
 
-        (accountAddress) = abi.decode(returnData, (address));
+        (accountAddress) = abi.decode(returnData, (bytes32));
     }
 }
