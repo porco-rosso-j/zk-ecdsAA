@@ -67,3 +67,7 @@ Even though applying ZKP to privacy solutions is cool and effective, I think it'
 ### Relayer
 
 To make AnonAA purely private, there needs to be a relayer that can work as a relayer/paymaster so that users don't reveal its on-chain recorsds for paying gas. I couldn't build it whithin this hackathon but this is the first thing that should be worked on next.
+
+## Deployments
+
+forge script script/Deploy4337.s.sol:DeployAccount --rpc-url <RPC_URL>
