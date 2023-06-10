@@ -2,7 +2,7 @@
 
 ## Overview
 
-AnonAA is an Account Abstractionn (ERC4337/zkSync AA) wallet that implements useful privacy-preserving features, such as private ownership, private social recovery, and private ownership transfer. These are enabled by ZKP with Noir.
+AnonAA is an Account Abstractionn (ERC4337/zkSync AA) wallet that implements useful privacy-preserving features, such as private ownership, private social recovery, and private ownership transfer. These are enabled by ZKP with Noir, generalized zkp language built by Aztec.
 
 ## Feature break-down
 
@@ -35,9 +35,11 @@ AnonAA allows for safe and private transfer of the account ownership. Even if yo
 - [DarkSafe](https://github.com/colinnielsen/dark-safe)
 - [ecrecover-noir](https://github.com/colinnielsen/ecrecover-noir)
 
+## Contracts
+
 ## Challenges
 
-#### Building Frontend
+### Building Frontend
 
 Since Noir's JS library used for generating zk-proof is unusable as it hasn't been updated to the latest version of Noir, I couldn't build a fron-tend where users can locally generate proof and submit transactions to get his/her actions done.
 
@@ -50,3 +52,7 @@ Unfortunately, this is impossible at this point as the Noir JS library is still 
 ### Proving time and Verifying cost
 
 Even though applying ZKP to privacy solutions is cool and effective, I think it's still hard to go in production as the proving time is too long ( abt 1.30mins for each ) and verifying contract consumes tons of gas ( min. ~500k). But I believe that this bottlenecks will be eased and removed as the technologies improve in Noir and its underlying proving system.
+
+### Relayer
+
+To make AnonAA purely private, there needs to be a relayer that can work as a relayer/paymaster so that users don't reveal its on-chain recorsds for paying gas. I couldn't build it whithin this hackathon but this is the first thing that should be worked on next.

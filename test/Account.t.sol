@@ -1,6 +1,6 @@
 pragma solidity 0.8.12;
 
-import "../src/erc4337/UltraVerifier.sol";
+import "../src/verifier/UltraVerifier.sol";
 import {ZkECDSAA} from "../src/erc4337/Account.sol";
 import "../src/helpers/BytesLib.sol";
 import "./utils/NoirHelper.sol";

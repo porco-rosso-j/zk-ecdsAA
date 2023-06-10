@@ -3,7 +3,7 @@ pragma solidity ^0.8.12;
 import "@openzeppelin/contracts/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts/proxy/utils/UUPSUpgradeable.sol";
 import "account-abstraction/core/BaseAccount.sol";
-import "./UltraVerifier.sol";
+import "../verifier/UltraVerifier.sol";
 
 import "../modules/Inheritance.sol";
 import "../modules/Recovery.sol";
@@ -44,7 +44,6 @@ contract ZkECDSAA is
     BaseAccount,
     UUPSUpgradeable,
     Initializable,
-    UltraVerifier,
     RecoveryModule,
     InheritanceModule
 {
