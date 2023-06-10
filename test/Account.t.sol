@@ -93,7 +93,6 @@ contract zkECDSAATest is NoirHelper, Addresses {
         uint _appCount = zkECDSAA.getApprovalCount(hashedAddr[3]);
         assertEq(_appCount, 0);
 
-        // vm.prank(addresses[2]);
         bytes memory callData = abi.encodeWithSelector(
             zkECDSAA.approveRecovery.selector,
             hashedAddr[3],
@@ -125,6 +124,40 @@ contract zkECDSAATest is NoirHelper, Addresses {
 
         bool voted = zkECDSAA.getVoted(hashedAddr[3], hashedAddr[1]);
         assertEq(voted, true);
+
+        // second approval
+
+        bytes memory callData_ = abi.encodeWithSelector(
+            zkECDSAA.approveRecovery.selector,
+            hashedAddr[3],
+            hashedAddr[2]
+        );
+
+        uint res_ = prove_and_verify(
+            callData_,
+            string.concat("circuits/zkecdsa/proofs/", proof_name, ".proof"),
+            proof_name,
+            2, // pk
+            2, // hashedaddr
+            pubkey3
+        );
+
+        assertEq(res_, 0);
+
+        // execute
+        vm.prank(address(entryPoint));
+        zkECDSAA.execute(address(zkECDSAA), 0, callData_);
+
+        appCount = zkECDSAA.getApprovalCount(hashedAddr[3]);
+        assertEq(appCount, 2);
+
+        bool voted_ = zkECDSAA.getVoted(hashedAddr[3], hashedAddr[2]);
+        assertEq(voted_, true);
+
+        bytes32 owner = zkECDSAA.owner();
+        assertEq(owner, hashedAddr[3]);
+
+        console.logUint(500);
     }
 
     function prove_and_verify(
@@ -152,8 +185,8 @@ contract zkECDSAATest is NoirHelper, Addresses {
             BytesLib.bytes32ToUint8Array(userOpHash)
         );
 
-        // bytes memory proof = generateProof(_path, _proof_name);
-        bytes memory proof = vm.parseBytes(vm.readFile(_path));
+        bytes memory proof = generateProof(_path, _proof_name);
+        // bytes memory proof = vm.parseBytes(vm.readFile(_path));
         userOp.signature = abi.encode(hashedAddr[hashed_addr_num], proof);
 
         vm.prank(address(entryPoint));

@@ -141,7 +141,7 @@ contract ZkECDSAA is
     function _validateSignature(
         UserOperation calldata userOp,
         bytes32 userOpHash
-    ) internal override returns (uint256 validationData) {
+    ) internal view override returns (uint256 validationData) {
         (bytes32 hashedAddr, bytes memory proof) = abi.decode(
             userOp.signature,
             (bytes32, bytes)

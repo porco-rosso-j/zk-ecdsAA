@@ -45,10 +45,7 @@ abstract contract RecoveryModule is ModuleBase {
     }
 
     // called from new EOA which is created by the owner who lost access to this account
-    function proposeRecovery(
-        bytes32 _newOwner,
-        uint _deadline
-    ) public returns (bytes32) {
+    function proposeRecovery(bytes32 _newOwner, uint _deadline) public {
         require(_newOwner != _owmer(), "INVALID_NEW_OWENR");
         require(_newOwner.length != 0, "INVALID_BYTES");
 
