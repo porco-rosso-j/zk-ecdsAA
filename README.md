@@ -2,13 +2,13 @@
 
 ## Overview
 
-AnonAA is an ERC4337 wallet that implements useful privacy-preserving features, such as private ownership, private social recovery, and private ownership transfer. These are enabled by ZKP with Noir.
+AnonAA is an Account Abstractionn (ERC4337/zkSync AA) wallet that implements useful privacy-preserving features, such as private ownership, private social recovery, and private ownership transfer. These are enabled by ZKP with Noir.
 
 ## Feature break-down
 
 ### Private Ownership
 
-While owner addresses are conventionally publicly stored in a smart contract wallet in which the address is used for signature verification, zkECDSAA only stores encrypted addresses which helps the owner hide the ownership of the account. The signature verification occurs in a way that verifies the zk-proof provided by the transaction sender.
+While owner addresses are conventionally publicly stored in a smart contract wallet in which the address is used for signature verification, AnonAA only stores encrypted addresses which helps the owner hide the ownership of the account. The signature verification occurs in a way that verifies the zk-proof provided by the transaction sender.
 
 Hence, as long as the owner manages the account without making the links to his/her other addresses on-chain, nobody can guess/know who controls the smart contract wallet.
 
@@ -22,7 +22,7 @@ To prevent such actions, zkECDSA allows you to store the guardian as encrypted s
 
 ### Private Inheritance
 
-zkECDSAA allows for safe and private transfer of the account ownership. Even if you are in occasions like death and imprisonment where you can't have access to your account/funds anymore, people such as your son, daughter, and wife can safely inherit your funds anonymously.
+AnonAA allows for safe and private transfer of the account ownership. Even if you are in occasions like death and imprisonment where you can't have access to your account/funds anymore, people such as your son, daughter, and wife can safely inherit your funds anonymously.
 
 ## Technologies
 
