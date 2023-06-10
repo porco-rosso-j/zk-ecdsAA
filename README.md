@@ -14,7 +14,7 @@ Hence, as long as the owner manages the account without making the links to his/
 
 ### Private Social Recovery
 
-One of the biggest unspoken risks associated with the current social recovery scheme is the possible corruption in which the "trusted" guardians communicate behind the scene and propose a recovery process and approve it to take the account ownership and steal the funds.
+One of the biggest unspoken risks associated with the current social recovery scheme is the possible corruption in which your "trusted" guardians communicate behind the scene and propose a recovery process and approve it to take the account ownership and steal your funds.
 
 Imagine a social recovery wallet with 3 guardians (one is your backup address and the other two are people you trust, like your family members and close friends) and the threshold is 2. As long as the stored guardian addresses are publicly known, it's fairly easy for guardians other than you to take malicious actions against your account.
 
@@ -35,17 +35,18 @@ AnonAA allows for safe and private transfer of the account ownership. Even if yo
 - [DarkSafe](https://github.com/colinnielsen/dark-safe)
 - [ecrecover-noir](https://github.com/colinnielsen/ecrecover-noir)
 
-## Contracts
+## Deployed Contracts
 
-Here is the list of the Account addresses deployed on each network.
+Here is the list of the Account contract addresses deployed on each network.
 
-| Chain           | Address                                    |
-| --------------- | ------------------------------------------ |
-| Goerli          | 0x0C92B5E41FBAc2CbF1FAD8D72d5BC4F3f73dA104 |
-| Optimism Goerli | 0xaFb4461a934574d33Ae5b759914E14226a3d168e |
-| Chiago(Gnosis)  | 0x55b89639d847702d948E307B72651D6213efDb7A |
-| Scroll          | 0x542a0d82F98D1796A38a3382235c98C797eaC4F5 |
-| zkSync Era      | 0x0000000000000000000000000000000000000000 |
+| Chain              | Address                                    |
+| ------------------ | ------------------------------------------ |
+| Goerli             | 0x0C92B5E41FBAc2CbF1FAD8D72d5BC4F3f73dA104 |
+| Optimism Goerli    | 0xaFb4461a934574d33Ae5b759914E14226a3d168e |
+| Chiago(Gnosis)     | 0x55b89639d847702d948E307B72651D6213efDb7A |
+| Scroll alpha       | 0x542a0d82F98D1796A38a3382235c98C797eaC4F5 |
+| zkSync Era testnet | 0x0000000000000000000000000000000000000000 |
+| Base Goerli        | 0x3a52f22c59bbb86b85eba807cf6ebadbe298d9a3 |
 
 ## Challenges
 

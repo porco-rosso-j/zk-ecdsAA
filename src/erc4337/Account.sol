@@ -7,7 +7,6 @@ import "../verifier/UltraVerifier.sol";
 
 import "../modules/Inheritance.sol";
 import "../modules/Recovery.sol";
-import "../helpers/BytesLib.sol";
 
 /*
 
@@ -47,7 +46,6 @@ contract ZkECDSAA is
     RecoveryModule,
     InheritanceModule
 {
-    using BytesLib for bytes;
     UltraVerifier public verifier;
     bytes32 public owner;
 
