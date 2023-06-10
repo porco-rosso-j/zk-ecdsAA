@@ -37,6 +37,16 @@ AnonAA allows for safe and private transfer of the account ownership. Even if yo
 
 ## Contracts
 
+Here is the list of the Account addresses deployed on each network.
+
+| Chain           | Address                                    |
+| --------------- | ------------------------------------------ |
+| Goerli          | 0x0C92B5E41FBAc2CbF1FAD8D72d5BC4F3f73dA104 |
+| Optimism Goerli | 0xaFb4461a934574d33Ae5b759914E14226a3d168e |
+| Chiago(Gnosis)  | 0x55b89639d847702d948E307B72651D6213efDb7A |
+| Scroll          | 0x542a0d82F98D1796A38a3382235c98C797eaC4F5 |
+| zkSync Era      | 0x0000000000000000000000000000000000000000 |
+
 ## Challenges
 
 ### Building Frontend
