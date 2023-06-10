@@ -46,7 +46,6 @@ contract NoirHelper is Test {
         string[] memory ffi_cmds = new string[](1);
         ffi_cmds[0] = "./delete.sh";
         vm.ffi(ffi_cmds);
-        console.logUint(100);
         delete inputs;
     }
 
@@ -57,7 +56,10 @@ contract NoirHelper is Test {
     //     return vm.parseBytes(file);
     // }
 
-    function generateProof(string memory _path) public returns (bytes memory) {
+    function generateProof(
+        string memory _path,
+        string memory _proof_name
+    ) public returns (bytes memory) {
         string memory proverTOML = "circuits/zkecdsa/Prover.toml";
         string memory params1 = string.concat(
             inputs.n_hashedAddr,
@@ -92,7 +94,7 @@ contract NoirHelper is Test {
 
         // generate proof
         string[] memory ffi_cmds = new string[](1);
-        ffi_cmds[0] = "./prove.sh";
+        ffi_cmds[0] = string.concat("./actions/prove_", _proof_name, ".sh");
         // chmod +x ./prove.sh to give the permission.
         vm.ffi(ffi_cmds);
 
@@ -117,3 +119,5 @@ contract NoirHelper is Test {
         return str;
     }
 }
+
+// 161b

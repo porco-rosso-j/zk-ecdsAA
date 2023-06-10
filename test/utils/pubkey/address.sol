@@ -31,11 +31,25 @@ contract Addresses {
         0x2a871d0798f97d79848a013d4936a73bf4cc922c825d33c1cf7073dff6d409c6
     ];
 
-    bytes32[] public hashedAddr = [
-        0x13ab2733d03b0c89ab8222acd18b002120fec289a54d5769536b3b758d8dc780,
-        0x1c9fcea8cdb14e79710ec43e3f5a2c0b5c736586bd4a896c52033acab345577d,
-        0x2cc5a2e55e9a482940665b3e3dc88a9e3b0cf90e6b4966f97c8b13fa686cfe5d
-    ];
+    bytes32[] public hashedAddr;
+
+    constructor() {
+        hashedAddr.push(
+            0x13ab2733d03b0c89ab8222acd18b002120fec289a54d5769536b3b758d8dc780
+        );
+        hashedAddr.push(
+            0x1c9fcea8cdb14e79710ec43e3f5a2c0b5c736586bd4a896c52033acab345577d
+        );
+        hashedAddr.push(
+            0x2cc5a2e55e9a482940665b3e3dc88a9e3b0cf90e6b4966f97c8b13fa686cfe5d
+        );
+        hashedAddr.push(
+            0x1c02f61c7c5e6510aeee895347bd0ed9d1162d7038a33a364f65d511b2436d80
+        );
+        hashedAddr.push(
+            0x108206375df5b41c4d706cd9d4715c38781d22ee9ff66a5cb887bbec403dea74
+        );
+    }
 
     uint8[] public pubkey1 = [
         131,

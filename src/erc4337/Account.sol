@@ -52,6 +52,7 @@ contract ZkECDSAA is
     UltraVerifier public verifier;
     bytes32 public owner;
 
+    // IEntryPoint private immutable _entryPoint;
     IEntryPoint private immutable _entryPoint;
 
     event ZKECDSAInitialized(
@@ -82,9 +83,15 @@ contract ZkECDSAA is
         _entryPoint = IEntryPoint(anEntryPoint);
     }
 
-    function initialize(bytes32 _owner, address _verifier) public initializer {
+    function initialize(
+        bytes32 _owner,
+        address _verifier,
+        bytes32[] memory _guardians,
+        uint8 _threshold
+    ) public initializer {
         owner = _owner;
         verifier = UltraVerifier(_verifier);
+        initializeRecovery(_guardians, _threshold);
     }
 
     /**
@@ -135,36 +142,13 @@ contract ZkECDSAA is
         UserOperation calldata userOp,
         bytes32 userOpHash
     ) internal override returns (uint256 validationData) {
+        (bytes32 hashedAddr, bytes memory proof) = abi.decode(
+            userOp.signature,
+            (bytes32, bytes)
+        );
+
         bytes32[] memory publicInputs = new bytes32[](33);
-
-        publicInputs = getPublicInputs(userOp, userOpHash, publicInputs);
-
-        // signature == proof ( mb better abi encoded)
-        if (!verifier.verify(userOp.signature, publicInputs))
-            revert PROOF_VERIFICATION_FAILED();
-        return 0;
-    }
-
-    // is it possible for somebody to call approveRecovery more than signle times
-    // by using other's hashed address. nah?
-    // i guess that person cant create proof as he/she cant sign tx properly.
-
-    function getPublicInputs(
-        UserOperation calldata userOp,
-        bytes32 userOpHash,
-        bytes32[] memory publicInputs
-    ) internal view returns (bytes32[] memory) {
-        bytes4 msgSig = BytesLib.getSelector(userOp.callData);
-
-        // https://abi.hashex.org/
-        // collusion might be problematic...
-        publicInputs[0] = msgSig == bytes4(0x4bbfbc38)
-            ? BytesLib.decodeRecoveryArgs(userOp.callData)
-            : msgSig == bytes4(0x12264e20)
-            ? BytesLib.decodeProposeInheritanceArgs(userOp.callData)
-            : msgSig == bytes4(0x52ae0147)
-            ? BytesLib.decodeExecuteInheritanceArgs(userOp.callData)
-            : owner;
+        publicInputs[0] = hashedAddr;
 
         bytes memory b = bytes.concat(userOpHash);
 
@@ -172,7 +156,10 @@ contract ZkECDSAA is
             publicInputs[i + 1] = bytes32(uint(uint8(b[i])));
         }
 
-        return publicInputs;
+        // signature == proof ( mb better abi encoded)
+        if (!verifier.verify(proof, publicInputs))
+            revert PROOF_VERIFICATION_FAILED();
+        return 0;
     }
 
     /**
@@ -209,11 +196,11 @@ contract ZkECDSAA is
         _onlySelf();
     }
 
-    // function changeOwner(bytes32 _owner) internal override {
-    //     owner = _owner;
-    // }
+    function changeOwner(bytes32 _owner) internal override {
+        owner = _owner;
+    }
 
-    // function _owmer() internal view override returns (bytes32) {
-    //     return owner;
-    // }
+    function _owmer() internal view override returns (bytes32) {
+        return owner;
+    }
 }

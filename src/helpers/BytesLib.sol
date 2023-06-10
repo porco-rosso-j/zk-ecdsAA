@@ -1,4 +1,4 @@
-pragma solidity ^0.8.12;
+pragma solidity ^0.8.0;
 
 library BytesLib {
     function decodeRecoveryArgs(

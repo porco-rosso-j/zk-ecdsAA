@@ -5,7 +5,7 @@ import "./ModuleBase.sol";
 // https://github.com/noir-lang/noir-starter/blob/main/foundry-voting/src/zkVote.sol
 // https://github.com/colinnielsen/dark-safe/blob/colinnielsen/verify-sigs/contracts/DarkSafe.sol
 
-contract RecoveryModule is ModuleBase {
+abstract contract RecoveryModule is ModuleBase {
     mapping(bytes32 => bool) public guardians;
 
     struct Recovery {
@@ -18,16 +18,17 @@ contract RecoveryModule is ModuleBase {
 
     uint8 public recoveryThreshold;
 
+    // ) public onlySelf {
     function initializeRecovery(
         bytes32[] memory _guardians,
         uint8 _threshold
-    ) public onlySelf {
+    ) internal {
         require(_guardians.length >= _threshold, "INVALID_GUARDIAN_NUMBER");
         setGurdian(_guardians);
         setThreshold(_threshold);
     }
 
-    function setGurdian(bytes32[] memory _guardians) public onlySelf {
+    function setGurdian(bytes32[] memory _guardians) public {
         for (uint i; i < _guardians.length; i++) {
             guardians[_guardians[i]] = true;
         }
@@ -39,7 +40,7 @@ contract RecoveryModule is ModuleBase {
         }
     }
 
-    function setThreshold(uint8 _threshold) public onlySelf {
+    function setThreshold(uint8 _threshold) public {
         recoveryThreshold = _threshold;
     }
 
@@ -56,7 +57,6 @@ contract RecoveryModule is ModuleBase {
         recovery.deadline = _deadline;
     }
 
-    //
     function approveRecovery(
         bytes32 _newOwner, // proposed new onwer
         bytes32 _guardian // "caller"
@@ -70,14 +70,22 @@ contract RecoveryModule is ModuleBase {
             "DOUBLE_VOTE_NOT_ALLOWED"
         );
         require(guardians[_guardian], "INVALID_GUARDIAN");
-
         recoveries[_newOwner].approvalCount += 1;
-
         if (recoveries[_newOwner].approvalCount >= recoveryThreshold) {
             changeOwner(_newOwner);
         }
-
         recoveries[_newOwner].voted[_guardian] = true;
+    }
+
+    function getApprovalCount(bytes32 _hashedAddr) public view returns (uint) {
+        return recoveries[_hashedAddr].approvalCount;
+    }
+
+    function getVoted(
+        bytes32 _newOwner,
+        bytes32 _approver
+    ) public view returns (bool) {
+        return recoveries[_newOwner].voted[_approver];
     }
 }
 
