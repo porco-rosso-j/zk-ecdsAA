@@ -43,7 +43,9 @@ contract zkECDSAATest is NoirHelper, Addresses {
             hashedAddr[0],
             address(verifier),
             guardians,
-            uint8(2)
+            uint8(2),
+            864000,
+            hashedAddr[4]
         );
 
         // only_self sucks lol
@@ -158,6 +160,66 @@ contract zkECDSAATest is NoirHelper, Addresses {
         assertEq(owner, hashedAddr[3]);
 
         console.logUint(500);
+    }
+
+    function test_inheritance() public {
+        // vm.prank(addresses[4]);
+        // zkECDSAA.proposeInheritance(hashedAddr[4]);
+
+        bytes memory callData = abi.encodeWithSelector(
+            zkECDSAA.proposeInheritance.selector,
+            hashedAddr[4]
+        );
+
+        console.logBytes(callData);
+
+        string memory proof_name = "prop_i";
+
+        uint res = prove_and_verify(
+            callData,
+            string.concat("circuits/zkecdsa/proofs/", proof_name, ".proof"),
+            proof_name,
+            4, // pk
+            4, // hashedaddr
+            pubkey5
+        );
+
+        assertEq(res, 0);
+
+        // execute
+        vm.prank(address(entryPoint));
+        zkECDSAA.execute(address(zkECDSAA), 0, callData);
+
+        bytes32 benf = zkECDSAA.getBeneficiary(1);
+        assertEq(benf, hashedAddr[4]);
+
+        vm.warp(block.timestamp + 865000);
+
+        bytes memory callData_ = abi.encodeWithSelector(
+            zkECDSAA.executeInheritance.selector,
+            hashedAddr[4],
+            1
+        );
+
+        proof_name = "exec_i";
+
+        uint res_ = prove_and_verify(
+            callData_,
+            string.concat("circuits/zkecdsa/proofs/", proof_name, ".proof"),
+            proof_name,
+            4, // pk
+            4, // hashedaddr
+            pubkey5
+        );
+
+        assertEq(res_, 0);
+
+        // execute
+        vm.prank(address(entryPoint));
+        zkECDSAA.execute(address(zkECDSAA), 0, callData_);
+
+        bytes32 owner = zkECDSAA.owner();
+        assertEq(owner, hashedAddr[4]);
     }
 
     function prove_and_verify(

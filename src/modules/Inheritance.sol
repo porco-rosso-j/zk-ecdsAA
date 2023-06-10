@@ -2,7 +2,7 @@ pragma solidity ^0.8.12;
 
 import "./ModuleBase.sol";
 
-contract InheritanceModule is ModuleBase {
+abstract contract InheritanceModule is ModuleBase {
     uint public pendingPeriod; // e.g. 7884008 ( = 3 months )
 
     struct Inheritance {
@@ -16,12 +16,20 @@ contract InheritanceModule is ModuleBase {
 
     mapping(bytes32 => bool) public beneficiaries;
 
-    function initializeInheritance(uint _pendingPeriod) internal {
+    function initializeInheritance(
+        uint _pendingPeriod,
+        bytes32 _beneficiary
+    ) internal {
         setPendingPeriod(_pendingPeriod);
+        setBeneficiary(_beneficiary);
     }
 
-    function setPendingPeriod(uint _pendingPeriod) public onlySelf {
+    function setPendingPeriod(uint _pendingPeriod) public {
         pendingPeriod = _pendingPeriod;
+    }
+
+    function setBeneficiary(bytes32 _beneficiary) public {
+        beneficiaries[_beneficiary] = true;
     }
 
     function proposeInheritance(bytes32 _beneficiary) public returns (uint) {
@@ -60,7 +68,7 @@ contract InheritanceModule is ModuleBase {
 
     // the owner approves the change of the ownership without waiting for pending period.
     // if expired, the owner can't do this but wait the proposer to execute inheritance.
-    function approveInheritance(uint _inheritanceCount) public onlySelf {
+    function approveInheritance(uint _inheritanceCount) public {
         require(
             _inheritanceCount != 0 && _inheritanceCount <= inheritanceCount,
             "INVALID_COUNT"
@@ -74,7 +82,7 @@ contract InheritanceModule is ModuleBase {
 
     // the owner simply rejects the change of the ownership within the pending period.
     // if expired, the owner can't reject but wait the proposer to execute inheritance.
-    function rejectInheritance(uint _inheritanceCount) public onlySelf {
+    function rejectInheritance(uint _inheritanceCount) public {
         require(
             _inheritanceCount != 0 && _inheritanceCount <= inheritanceCount,
             "INVALID_COUNT"
@@ -84,5 +92,9 @@ contract InheritanceModule is ModuleBase {
         require(inheritance.deadline <= block.timestamp, "EXPIERED_ACTION");
         inheritance.succeed = false;
         inheritances[_inheritanceCount] = inheritance;
+    }
+
+    function getBeneficiary(uint _count) public view returns (bytes32) {
+        return inheritances[_count].beneficiary;
     }
 }

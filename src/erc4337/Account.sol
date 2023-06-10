@@ -87,11 +87,14 @@ contract ZkECDSAA is
         bytes32 _owner,
         address _verifier,
         bytes32[] memory _guardians,
-        uint8 _threshold
+        uint8 _threshold,
+        uint _pendingPeriod,
+        bytes32 _beneficiary
     ) public initializer {
         owner = _owner;
         verifier = UltraVerifier(_verifier);
         initializeRecovery(_guardians, _threshold);
+        initializeInheritance(_pendingPeriod, _beneficiary);
     }
 
     /**
