@@ -4,15 +4,17 @@
 
 ## Overview
 
-AnonAA is an ERC4337-based social recovery wallet that also implements useful privacy-preserving features, such as private ownership and private ownership transfer. These are enabled by ZKP with Noir, generalized zkp language built by Aztec.
+AnonAA is an ERC4337-based social recovery wallet that also implements privacy-preserving features, such as private ownership and private ownership transfer. These are enabled by ZKP with Noir, generalized zkp language built by Aztec.
 
-## Feature break-down
+## Problems & Solutions
 
-### Private Social Recovery
+AnonAA has three distinct privacy features which solve different problems. All of the solutions below are made possible with zk-ecdsa, ecrecover carried out through a zero-knowledge circuit. The zk-proof is verified on-chain. it replaces the ecrecover function which is commonly used in transaction signature verification in smart contract wallets.
 
-One of the biggest unspoken risks associated with the current social recovery scheme is the possible corruption in which the "trusted" guardians communicate behind the scene and collude to take the account ownership and steal the owner's assets. 
+### Secuirty-enhanced Social Recovery
 
-Imagine a social recovery wallet with 3 guardians (one is your backup address and the other two are people you trust, like your family members and close friends) and the threshold is 2. As long as the stored guardian addresses are publicly known, it's not difficult for guardians other than you to collude. 
+One of the biggest unspoken risks associated with the current social recovery scheme is the possible corruption in which the "trusted" guardians communicate behind the scene and collude to take the account ownership and steal the owner's assets.
+
+Imagine a social recovery wallet with 3 guardians (one is your backup address and the other two are people you trust, like your family members and close friends) and the threshold is 2. As long as the stored guardian addresses are publicly known, it's not difficult for guardians other than you to collude.
 
 To prevent such actions, AnonAA allows you to store the guardian address masked(hashed) and they can interact with the wallet ( approve/ reject recovery proposals) without revealing their public identity ( eht address / public key ) so that they can't know who the other guardians are, making the corruption nearly impossible.
 
@@ -39,13 +41,13 @@ AnonAA allows for safe and private transfer of account ownership. Even if you ar
 
 Here is the list of the Account contract addresses deployed on each network.
 
-| Chain              | Address                                    |
-| ------------------ | ------------------------------------------ |
-| Goerli             | 0x0C92B5E41FBAc2CbF1FAD8D72d5BC4F3f73dA104 |
-| Optimism Goerli    | 0xaFb4461a934574d33Ae5b759914E14226a3d168e |
-| Chiago(Gnosis)     | 0x55b89639d847702d948E307B72651D6213efDb7A |
-| Scroll alpha       | 0x542a0d82F98D1796A38a3382235c98C797eaC4F5 |
-| Base Goerli        | 0x3a52f22c59bbb86b85eba807cf6ebadbe298d9a3 |
+| Chain           | Address                                    |
+| --------------- | ------------------------------------------ |
+| Goerli          | 0x0C92B5E41FBAc2CbF1FAD8D72d5BC4F3f73dA104 |
+| Optimism Goerli | 0xaFb4461a934574d33Ae5b759914E14226a3d168e |
+| Chiago(Gnosis)  | 0x55b89639d847702d948E307B72651D6213efDb7A |
+| Scroll alpha    | 0x542a0d82F98D1796A38a3382235c98C797eaC4F5 |
+| Base Goerli     | 0x3a52f22c59bbb86b85eba807cf6ebadbe298d9a3 |
 
 ## Challenges
 
@@ -65,7 +67,7 @@ Even though applying ZKP to privacy solutions is cool and effective, I think it'
 
 ### Relayer
 
-To make AnonAA purely private, there needs to be a relayer that can work as a relayer/paymaster so that users don't reveal its on-chain recorsds for paying gas. I couldn't build it whithin this hackathon but this is the first thing that should be worked on next.
+To make AnonAA purely private, there needs to be a relayer that can work as a relayer/paymaster so that users don't reveal its on-chain recorsds for paying gas. I couldn't build it whithin this hackathon period but this is the first thing that would be worked on next.
 
 ## Deployments
 
@@ -89,7 +91,7 @@ chmod +x ./delete.sh
 forge test --contracts zkECDSAATest --match-test test_approve_recovery -vv
 ```
 
-Expected outcome would look like
+Expected outcome would look like the below
 
 <img width="544" alt="Screenshot 2023-06-11 at 9 53 19" src="https://github.com/porco-rosso-j/zk-ecdsAA/assets/88586592/5973d6bb-2d9b-415c-b14a-95d322689f21">
 
