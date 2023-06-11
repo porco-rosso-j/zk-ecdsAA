@@ -94,7 +94,7 @@ contract NoirHelper is Test {
 
         // generate proof
         string[] memory ffi_cmds = new string[](1);
-        ffi_cmds[0] = string.concat("./actions/prove_", _proof_name, ".sh");
+        ffi_cmds[0] = string.concat("./prove/prove_", _proof_name, ".sh");
         // chmod +x ./prove.sh to give the permission.
         vm.ffi(ffi_cmds);
 

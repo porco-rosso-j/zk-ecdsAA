@@ -70,4 +70,28 @@ To make AnonAA purely private, there needs to be a relayer that can work as a re
 
 ## Deployments
 
-forge script script/Deploy4337.s.sol:DeployAccount --rpc-url <RPC_URL>
+##### compile
+
+```shell
+forge compile
+```
+
+##### test
+
+```shell
+chmod +x ./actions/prove_app_r.sh
+```
+
+```shell
+chmod +x ./delete.sh
+```
+
+```shell
+forge test --contracts zkECDSAATest --match-test test_approve_recovery -vv
+```
+
+##### deploy
+
+```shell
+forge script script/Deploy4337.s.sol:DeployAccount --rpc-url <RPC_URL> --broadcast
+```

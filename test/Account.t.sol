@@ -23,9 +23,6 @@ contract zkECDSAATest is NoirHelper, Addresses {
     MockSetter public mockSetter;
     EntryPoint public entryPoint;
 
-    // relayer 0xa0Ee7A142d267C1f36714E4a8F75612F20a79720
-    // 0x2a871d0798f97d79848a013d4936a73bf4cc922c825d33c1cf7073dff6d409c6
-
     uint256 chainId = block.chainid;
 
     function setUp() public {
@@ -47,9 +44,6 @@ contract zkECDSAATest is NoirHelper, Addresses {
             864000,
             hashedAddr[4]
         );
-
-        // only_self sucks lol
-        // but then how could i prevent others from calling specifc funcs inside AA...?
 
         vm.deal(address(zkECDSAA), 5 ether);
     }
@@ -89,11 +83,21 @@ contract zkECDSAATest is NoirHelper, Addresses {
     // }
 
     function test_approve_recovery() public {
+        bytes32 owner_ = zkECDSAA.owner();
+        assertEq(owner_, hashedAddr[0]);
+
+        console.log("The initial owner: ");
+        console.logBytes32(owner_);
+
         vm.prank(addresses[3]);
         zkECDSAA.proposeRecovery(hashedAddr[3], block.timestamp + 864000);
 
         uint _appCount = zkECDSAA.getApprovalCount(hashedAddr[3]);
         assertEq(_appCount, 0);
+
+        console.log("");
+        console.log("New Recovery Proposed:");
+        console.log("appoval count: ", _appCount);
 
         bytes memory callData = abi.encodeWithSelector(
             zkECDSAA.approveRecovery.selector,
@@ -103,7 +107,7 @@ contract zkECDSAATest is NoirHelper, Addresses {
 
         string memory proof_name = "app_r";
 
-        console.logBytes(callData);
+        //console.logBytes(callData);
 
         // validation
         uint res = prove_and_verify(
@@ -123,6 +127,10 @@ contract zkECDSAATest is NoirHelper, Addresses {
 
         uint appCount = zkECDSAA.getApprovalCount(hashedAddr[3]);
         assertEq(appCount, 1);
+
+        console.log("");
+        console.log("The Recovery Proposal is approved by the first Guardian:");
+        console.log("appoval count: ", appCount);
 
         bool voted = zkECDSAA.getVoted(hashedAddr[3], hashedAddr[1]);
         assertEq(voted, true);
@@ -153,13 +161,21 @@ contract zkECDSAATest is NoirHelper, Addresses {
         appCount = zkECDSAA.getApprovalCount(hashedAddr[3]);
         assertEq(appCount, 2);
 
+        console.log("");
+        console.log(
+            "The Recovery Proposal is approved by the second Guardian:"
+        );
+        console.log("appoval count: ", appCount);
+
         bool voted_ = zkECDSAA.getVoted(hashedAddr[3], hashedAddr[2]);
         assertEq(voted_, true);
 
         bytes32 owner = zkECDSAA.owner();
         assertEq(owner, hashedAddr[3]);
 
-        console.logUint(500);
+        console.log("");
+        console.log("The new onwer has been set:");
+        console.logBytes32(owner);
     }
 
     function test_inheritance() public {
@@ -171,7 +187,7 @@ contract zkECDSAATest is NoirHelper, Addresses {
             hashedAddr[4]
         );
 
-        console.logBytes(callData);
+        // console.logBytes(callData);
 
         string memory proof_name = "prop_i";
 
@@ -248,7 +264,7 @@ contract zkECDSAATest is NoirHelper, Addresses {
         );
 
         bytes memory proof = generateProof(_path, _proof_name);
-        // bytes memory proof = vm.parseBytes(vm.readFile(_path));
+        //bytes memory proof = vm.parseBytes(vm.readFile(_path));
         userOp.signature = abi.encode(hashedAddr[hashed_addr_num], proof);
 
         vm.prank(address(entryPoint));
@@ -272,7 +288,7 @@ contract zkECDSAATest is NoirHelper, Addresses {
             0,
             64
         );
-        console.logBytes(signature);
+        //console.logBytes(signature);
 
         return signature;
     }
