@@ -148,6 +148,13 @@ contract ZkECDSAA is
             (bytes32, bytes)
         );
 
+        // depending on calldata sig, the hashed address's validity should be checked.
+        // otherwise, its crap, inehritance beneficiaries and guardians have the same priviledge as the owner...
+        // if the hashedAddr == guardian, the selector must be approveRecovery
+        // if the hashedAddr == beneficiary, the selector must be either proposeInheritance or executeInheritance.
+
+        checkCalldataValidity(hashedAddr, bytes4(userOp.callData));
+
         bytes32[] memory publicInputs = new bytes32[](33);
         publicInputs[0] = hashedAddr;
 
@@ -161,6 +168,21 @@ contract ZkECDSAA is
         if (!verifier.verify(proof, publicInputs))
             revert PROOF_VERIFICATION_FAILED();
         return 0;
+    }
+
+    function checkCalldataValidity(
+        bytes32 _hashedAddr,
+        bytes4 _selector
+    ) internal view returns (bool) {
+        if (guardians[_hashedAddr] && _hashedAddr != owner) {
+            require(_selector == bytes4(0x4bbfbc38), "INVALID_SELECTOR_G");
+        } else if (beneficiaries[_hashedAddr] && _hashedAddr != owner) {
+            require(
+                _selector == bytes4(0x12264e20) ||
+                    _selector == bytes4(0x52ae0147),
+                "INVALID_SELECTOR_I"
+            );
+        }
     }
 
     /**
