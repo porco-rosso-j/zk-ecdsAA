@@ -36,7 +36,7 @@ AnonAA allows for safe and private transfer of account ownership. Even if you ar
 
 - [ecrecover-noir](https://github.com/colinnielsen/ecrecover-noir): ecrecover implementation in Noir.  
 - [DarkSafe](https://github.com/colinnielsen/dark-safe) : Shielded Safe with Noir ecrecover. 
-- [nplate](https://github.com/whitenois3/nplate): an example of Noir proof generation in foundry test.  
+- [nplate](https://github.com/whitenois3/nplate): a template project with Noir proof generation in foundry test.  
 
 ## Deployed Contracts
 
