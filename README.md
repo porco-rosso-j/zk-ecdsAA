@@ -55,7 +55,7 @@ Here is the list of the Account contract addresses deployed on each network.
 
 Since Noir's JS library used for generating zk-proof is unusable as it hasn't been updated to the latest version of Noir, I couldn't build a fron-tend where users can locally generate proof and submit transactions to get his/her actions done.
 
-### Hashed Address, not Merkle proof
+### Hashed Address, not Merkle root
 
 AnonAA stores Pedersen-hashed addresses in smart contracts which is practically secure enough to preserve the privacy of the users: the owner, the guardians of social recovery, and the beneficiary of the inheritance. However, using Merkle root is more desirable and elegant as a solution to manage the user's identity as it reduces storage costs as the number of data increases.
 
