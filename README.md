@@ -30,7 +30,6 @@ AnonAA allows for safe and private transfer of account ownership. Even if you ar
 
 - [Noir](https://noir-lang.org/), a language for creating and verifying zk-proofs built by Aztec.
 - [ERC4337](https://eips.ethereum.org/EIPS/eip-4337), an Account Abstraction standard.
-- [zkSync](https://zksync.io/), a layer two zkEVM that supports native Account Abstraction.
 
 ### Inspiration & Credit
 
