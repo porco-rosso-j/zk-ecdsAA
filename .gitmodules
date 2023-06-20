@@ -10,7 +10,3 @@
 	path = lib/account-abstraction
 	url = https://github.com/eth-infinitism/account-abstraction
 	branch = v0.6.0
-[submodule "lib/era-system-contracts"]
-	path = lib/era-system-contracts
-	url = https://github.com/matter-labs/era-system-contracts
-	branch = 857da71
