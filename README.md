@@ -4,7 +4,7 @@
 
 ## Overview
 
-AnonAA is an ERC4337-based social recovery wallet that also implements privacy-preserving features, such as private ownership and private ownership transfer. These are enabled by ZKP with Noir, generalized zkp language built by Aztec.
+AnonAA is an ERC4337-based social recovery wallet that conceals guardians' addresses to prevent their potential corruption. It also implements privacy-preserving features like private ownership and private ownership transfer. zk-ecdsa written in Noir, a generalized zkp language built by Aztec, enables these features.
 
 ## Problems & Solutions
 
