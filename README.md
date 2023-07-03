@@ -57,13 +57,13 @@ Since Noir's JS library used for generating zk-proof is unusable as it hasn't be
 
 ### Hashed Address, not Merkle root
 
-AnonAA stores Pedersen-hashed addresses in smart contracts which is practically secure enough to preserve the privacy of the users: the owner, the guardians of social recovery, and the beneficiary of the inheritance. However, using Merkle root is more desirable and elegant as a solution to manage the user's identity as it reduces storage costs as the number of data increases.
+AnonAA stores Pedersen-hashed addresses in smart contracts that are practically secure enough to preserve the privacy of the users: the owner, the guardians of social recovery, and the beneficiary of the inheritance. Of course, an attacker can brute-force compute all the public addresses to link them to the hash of the addresses above, but adding additional randomness, such as using secret salt for hashing, would make it nearly impossible. 
 
-Unfortunately, this is impossible at this point as the Noir JS library is still out of date as I mentioned above.
+Anyway, I think that using Merkle tree/root is a more desirable and elegant solution to manage the user's identity secretly and efficiently as it's more difficult to extract leaves from a root and also reduces storage costs as the amount of identity data increases. Though, unfortunately, this is impossible at this point as the Noir JS library is still out of date as I mentioned above.
 
 ### Proving time and Verifying cost
 
-Even though applying ZKP to privacy solutions is cool and effective, I think it's still hard to go in production as the proving time is too long ( abt 1.30mins for each ) and verifying contract consumes tons of gas ( min. ~500k). But I believe that this bottlenecks will be eased and removed as the technologies improve in Noir and its underlying proving system.
+Even though applying ZKP to privacy solutions is cool and effective, I think it's still hard to go in production as the proving time is too long ( abt 1.30mins for each ) and verifying the contract consumes tons of gas ( min. ~500k). But I believe that these bottlenecks will be eased and removed as the technologies improve in Noir and its underlying proving system.
 
 ### Relayer
 
