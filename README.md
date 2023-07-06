@@ -2,6 +2,8 @@
 
 ![icon2](https://github.com/porco-rosso-j/zk-ecdsAA/assets/88586592/847da28a-f24c-4f98-abf8-bab74f30b788)
 
+*This project is built at the ETHPrague hackathon. [Project Page.](https://devfolio.co/projects/anonaa-f675)  
+
 ## Overview
 
 AnonAA is an ERC4337-based social recovery wallet that conceals guardians' addresses to prevent their potential corruption. It also implements privacy-preserving features like private ownership and private ownership transfer. zk-ecdsa written in Noir, a generalized zkp language built by Aztec, enables these features.
